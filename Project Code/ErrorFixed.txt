@@ -1,0 +1,10 @@
+MySQL group error:
+	1. Open MySQL shell. 
+	2. \sql
+	3. \connect root@localhost
+	4. Enter the password
+	5. SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+
+JDBC connector:
+1. Download from: https://dev.mysql.com/downloads/file/?id=525082
+2. Add to classpath in eclipse.

@@ -1,0 +1,95 @@
+use dwhproject;
+drop schema if exists `METROWAREHOUSE` ;
+DROP TABLE IF EXISTS `CUSTOMERS`;
+DROP TABLE if exists `PRODUCTS`;
+DROP TABLE IF EXISTS `TIME`;
+DROP TABLE IF EXISTS `FACT`;
+commit;
+
+CREATE SCHEMA `METROWAREHOUSE` ;
+USE `METROWAREHOUSE` ;
+
+--
+-- Table structure for table `TIME`
+--
+
+CREATE TABLE `TIME` (
+  `DATE` date NOT NULL,
+  `DAY` varchar(10) NOT NULL,
+  `MONTH` int NOT NULL,
+  `QUARTER` int NOT NULL,
+  `YEAR` int NOT NULL,
+  PRIMARY KEY (`DATE`)
+);
+
+--
+-- Table structure for table `CUSTOMERS`
+--
+
+
+CREATE TABLE `CUSTOMERS` (
+  `CUST_ID` varchar(4) NOT NULL,
+  `CUST_NAME` varchar(50) NOT NULL,
+  PRIMARY KEY (`CUST_ID`)
+);
+
+--
+-- Table structure for table `SUPPLIER`
+--
+
+DROP TABLE IF EXISTS `SUPPLIER`;
+CREATE TABLE `SUPPLIER` (
+  `SUPPLIER_ID` varchar(5) NOT NULL,
+  `SUPPLIER_Name` varchar(30) NOT NULL,
+  PRIMARY KEY (`SUPPLIER_ID`)
+);
+
+--
+-- Table structure for table `PRODUCTS`
+--
+
+DROP TABLE IF EXISTS `PRODUCTS`;
+CREATE TABLE `PRODUCTS` (
+  `P_ID` varchar(6) NOT NULL,
+  `P_NAME` varchar(30) NOT NULL,
+  PRIMARY KEY (`P_ID`)
+);
+
+--
+-- Table structure for table `STORE`
+--
+
+DROP TABLE IF EXISTS `STORE`;
+CREATE TABLE `STORE` (
+  `STORE_ID` varchar(4) NOT NULL,
+  `STORE_NAME` varchar(20) NOT NULL,
+  PRIMARY KEY (`STORE_ID`)
+);
+
+--
+-- Table structure for table `FACT`
+--
+
+
+CREATE TABLE `FACT` (
+  `FACT_ID` int NOT NULL,
+  `P_ID` varchar(6) NOT NULL,
+  `CUST_ID` varchar(4) NOT NULL,
+  `STORE_ID` varchar(4) NOT NULL,
+  `DATE` date NOT NULL,
+  `SUPPLIER_ID` varchar(5) NOT NULL,
+  `QUANTITY` smallint NOT NULL,
+  `SALES` decimal(7,2) NOT NULL,
+  PRIMARY KEY (`FACT_ID`),
+  KEY `CUST_FK` (`CUST_ID`),
+  KEY `STORE_FK` (`STORE_ID`),
+  KEY `DATE_FK` (`DATE`),
+  KEY `P_FK` (`P_ID`),
+  KEY `SUPPLIER_FK` (`SUPPLIER_ID`),
+  CONSTRAINT `CUSTOMERS` FOREIGN KEY (`CUST_ID`) REFERENCES `CUSTOMERS` (`CUST_ID`),
+  CONSTRAINT `TIME` FOREIGN KEY (`DATE`) REFERENCES `TIME` (`DATE`),
+  CONSTRAINT `PRODUCTS` FOREIGN KEY (`P_ID`) REFERENCES `PRODUCTS` (`P_ID`),
+  CONSTRAINT `STORE` FOREIGN KEY (`STORE_ID`) REFERENCES `STORE` (`STORE_ID`),
+  CONSTRAINT `SUPPLIER` FOREIGN KEY (`SUPPLIER_ID`) REFERENCES `SUPPLIER` (`SUPPLIER_ID`)
+);
+
